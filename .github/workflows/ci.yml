@@ -45,4 +45,9 @@ jobs:
             echo "Dockerfile no presente en esta rama — skipping"
             exit 0
           fi
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          if [ "$BRANCH" != "main" ] && [ "$BRANCH" != "develop" ]; then
+            echo "Branch '$BRANCH' es feature branch — skipping Docker build (codebase parcial)"
+            exit 0
+          fi
           docker build -t telecombolivianet-frontend:ci .
